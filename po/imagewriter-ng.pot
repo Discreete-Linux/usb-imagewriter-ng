@@ -1,0 +1,185 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Discreete Linux Team <info@discreete-linux.org>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: usb-imagewriter-ng 0.1\n"
+"Report-Msgid-Bugs-To: Discreete Linux Team <info@discreete-linux.org>\n"
+"POT-Creation-Date: 2012-03-22 09:48+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../imagewriter-ng:162
+#, python-format
+msgid ""
+"The device you selected is too small to contain the whole image files' "
+"contents. Image File is %(srcsize)s bytes, target device is %(tgtsize)s "
+"bytes. Please select another target."
+msgstr ""
+
+#: ../imagewriter-ng:172
+msgid "Image: "
+msgstr ""
+
+#: ../imagewriter-ng:173
+msgid "Target Device: "
+msgstr ""
+
+#: ../imagewriter-ng:188
+msgid "Unmounting all partitions of "
+msgstr ""
+
+#: ../imagewriter-ng:190
+msgid "Trying to unmount "
+msgstr ""
+
+#: ../imagewriter-ng:196 ../imagewriter-ng:202
+msgid "Error, umount "
+msgstr ""
+
+#: ../imagewriter-ng:196
+msgid " was terminated by signal "
+msgstr ""
+
+#: ../imagewriter-ng:200
+msgid " successfully unmounted"
+msgstr ""
+
+#: ../imagewriter-ng:202
+msgid " returned "
+msgstr ""
+
+#: ../imagewriter-ng:205
+msgid "Execution failed: "
+msgstr ""
+
+#: ../imagewriter-ng:213
+msgid "Could not read mtab !"
+msgstr ""
+
+#: ../imagewriter-ng:220
+msgid "Writing "
+msgstr ""
+
+#: ../imagewriter-ng:220
+msgid " to "
+msgstr ""
+
+#: ../imagewriter-ng:221
+msgid "Executing: dd if="
+msgstr ""
+
+#: ../imagewriter-ng:243
+msgid "The copy process ended with an error !"
+msgstr ""
+
+#: ../imagewriter-ng:247
+msgid "Image "
+msgstr ""
+
+#: ../imagewriter-ng:247
+msgid " successfully written to"
+msgstr ""
+
+#: ../imagewriter-ng:250
+msgid "The verification process ended with an error !"
+msgstr ""
+
+#: ../imagewriter-ng:320
+msgid "Verifying: Calculating source checksum"
+msgstr ""
+
+#: ../imagewriter-ng:339
+msgid "Verifying: Calculating target checksum"
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:7
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:98
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:360
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:442
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:524
+msgid "ImageWriter"
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:33
+msgid ""
+"<b>Warning</b>\n"
+" This will <b>destroy all data</b> on the target\n"
+" device, are you sure you want to proceed ?\n"
+"\n"
+" If you say ok here, please <b>do not unplug</b>\n"
+" the device during the following operation."
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:135
+msgid "Write Image:"
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:147
+msgid "Select an image file to be written to the device"
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:148
+msgid "Select Image"
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:162
+msgid "to"
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:173
+msgid "Select target device to write the image to"
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:199
+msgid " "
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:219
+msgid "Verify write"
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:266
+msgid "Details"
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:332
+msgid "Write to device"
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:392
+msgid ""
+"<b>Error</b>\n"
+" No target devices were found. \n"
+"\n"
+" You need to plug in a USB Key\n"
+" to which the image can be written."
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:471
+msgid ""
+"<b>Success</b>\n"
+" The image was successfully written to the\n"
+" target device.\n"
+" \n"
+" You are free to unplug it now, a log of the\n"
+" operation will be saved in your homedir if\n"
+" you close the application."
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:553
+msgid ""
+"<b>Error</b>\n"
+" Something went wrong, please see the details\n"
+" window for the exact error.\n"
+" \n"
+" A logfile with the content will be saved in your\n"
+" homedir if the application is closed."
+msgstr ""

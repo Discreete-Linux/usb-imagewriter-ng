@@ -1,0 +1,10 @@
+#!/bin/bash -e
+#
+# postinst for USB ImageWriter  NG
+#
+if [[ "$1" == "configure" ]]
+then
+    update-desktop-database
+fi
+chmod +x /usr/lib/imagewriter-ng/find_devices.py
+exit 0

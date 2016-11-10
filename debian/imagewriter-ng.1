@@ -1,0 +1,36 @@
+.TH imagewriter-ng "1" "March 2012" "IMAGEWRITER-NG " "User Commands"
+
+.SH NAME
+imagewriter-ng \- gui only application to write .img files to USB keys
+
+.SH SYNOPSIS
+\fBimagewriter-ng\fP [\-s|\-\-source \fI<imagefile>\fP] [\-t|\-\-target \fI<target_device>\fP] [\-v|\-\-verify] [\-g|\-\-go]
+
+.SH DESCRIPTION
+.B imagewriter-ng
+is a graphical application to write image files to USB keys.
+
+.SS OPTIONS
+.TP
+\fP\-s|\-\-source\fP \fI<imagefile>\fP
+Specify the source image. Cannot be overriden in the GUI
+.TP
+\fB\-t|\-\-target\fP \fI<target_device>\fP
+Specify the target device. Cannot be overriden in the GUI.
+\fBWARNING:\fP Anything you specify here will be overwritten!
+.TP
+\fB\-v|\-\-verify\fP
+Do a verification pass after writing
+.TP
+\fB\-g|\-\-go\fP
+Immediately start writing, do not wait for start command and confirmation.
+\fBWARNING:\fP May be dangerous, especially in combination with \-t
+
+.SH FILES
+.TP
+~/.imagewriter-ng.log
+Contains the log of the last operation
+.TP
+<imagefile>.md5
+Optional, may contain a pre-calculated checksum of the image to speed up
+verification.

@@ -1,0 +1,385 @@
+#!/usr/bin/python
+#  
+#  Copyright (c) 2007-2009 Canonical Ltd.
+#  Copyright (c) 2016 Discreete Linux Team <info@discreete-linux.org>
+#  
+#  Author: Oliver Grawert <ogra@ubuntu.com>
+#  Modified by: Discreete Linux Team <info@discreete-linux.org>
+# 
+#  This program is free software; you can redistribute it and/or 
+#  modify it under the terms of the GNU General Public License as 
+#  published by the Free Software Foundation; either version 2 of the
+#  License, or (at your option) any later version.
+# 
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+# 
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software Foundation,
+#  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+
+from gi.repository import Gtk
+from gi.repository import GObject
+from subprocess import Popen,PIPE,call,STDOUT
+import os
+import signal
+import sys
+import getopt
+import stat
+import re
+import parted
+import time
+import hashlib
+
+import gettext
+gettext.install("usb-imagewriter-ng", unicode=1)
+
+class ImageWriter:
+    def __init__(self):
+        APP="usb-imagewriter-ng"
+        DIR="/usr/share/locale"
+
+        gettext.bindtextdomain(APP, DIR)
+        gettext.textdomain(APP)
+
+        self.builder = Gtk.Builder()
+        self.builder.add_from_file("/usr/share/imagewriter-ng/imagewriter-ng.ui")
+        self.builder.set_translation_domain(APP)
+        # Parse command line options
+        try:
+            opts, args = getopt.getopt(sys.argv[1:], "hvs:t:g", ["help", "verify", "source=", "target=", "go"])
+        except getopt.GetoptError, err:
+            # print help information and exit:
+            print str(err) # will print something like "option -a not recognized"
+            self.usage()
+            sys.exit(2)
+        self.cmd_target = ""
+        self.cmd_source = ""
+        self.autostart = 0
+        self.verify = 0
+        for o,a in opts:
+            if o in ("-t", "--target"):
+                if (not os.path.exists(a)) or (not stat.S_ISBLK(os.stat(a)[stat.ST_MODE])):
+                    print "%s does not exist or is not a block device!" % a
+                    sys.exit(3)
+                else:
+                    self.cmd_target = a
+            elif o in ("-s", "--source"):
+                if not os.path.isfile(a) and not stat.S_ISBLK(os.stat(a)[stat.ST_MODE]):
+                    print "%s does not exist or is not a readable file!" % a
+                    sys.exit(3)
+                else:
+                    self.cmd_source = a
+            elif o in ("-h", "--help"):
+                self.usage()
+                sys.exit(0)
+            elif o in ("-g", "--go"):
+                self.autostart = 1
+            elif o in ("-v", "--verify"):
+                self.verify = 1
+        
+        if self.autostart:
+            if not self.cmd_source:
+                print "No source given on command line, cannot autostart!"
+                sys.exit(3)
+            elif not self.cmd_target:
+                print "No target given on command line, cannot autostart!"
+                sys.exit(3)
+
+        # make sure we have a target device
+        self.get_devices()       
+
+        # get globally needed widgets
+        self.window = self.builder.get_object("main_dialog")
+        self.devicelist = self.builder.get_object("device_combobox")
+        self.logview = self.builder.get_object("detail_text")
+        self.progress = self.builder.get_object("progressbar")
+        self.builder.get_object("verify").set_active(self.verify)
+        # eventbox = self.builder.get_object("eventbox")
+        # bgcol = Gdk.color_parse("white")
+        # eventbox.modify_bg(Gtk.StateType.NORMAL, bgcol)
+        self.log = self.logview.get_buffer()
+        self.ddpid = 0
+
+        # set default file filter to *.img and *.iso
+        self.chooser = self.builder.get_object("filechooserbutton")
+        filt = Gtk.FileFilter()
+        filt.set_name(_("Image Files"))
+        filt.add_pattern("*.img")
+        filt.add_pattern("*.iso")
+        filt.add_pattern("*.raw")
+        filt2 = Gtk.FileFilter()
+        filt2.set_name(_("All Files"))
+        filt2.add_pattern("*")
+        self.chooser.add_filter(filt)
+        self.chooser.add_filter(filt2)
+        self.chooser.set_filter(filt)
+        if self.cmd_source:
+            self.img_name = self.cmd_source
+            self.chooser.set_sensitive(False)
+            self.chooser.set_filename(self.cmd_source)
+            self.activate_devicelist(None)
+
+        self.builder.connect_signals(self)
+        GObject.idle_add(self.autoclick)
+        self.window.show_all()
+      
+    def autoclick(self):
+        if self.autostart:
+            button = self.builder.get_object("write_button")
+            button.clicked()
+        return False
+
+    def usage(self):
+        print "Usage: imagewriter-ng [-s|--source <imagefile>] [-t|--target <target device>] [-v|--verify] [-g|--go]\n"
+
+    def get_devices(self):
+        list = Popen(["/usr/lib/imagewriter-ng/find_devices.py"], stdout=PIPE).communicate()[0]
+        if not len(list):
+            dialog = self.builder.get_object("nodev_dialog")
+            dialog.run()
+            exit(0)
+        self.combo = self.builder.get_object("device_combobox")
+        self.list = self.builder.get_object("liststore1")
+        list = list.strip().split('\n')
+        i = 0
+        for item in list:
+            name,path = item.split(',')
+            self.list.append([name+' ('+path.lstrip()+')'])
+            if self.cmd_target in path:
+                self.combo.set_active(i)
+                self.combo.set_sensitive(False)
+                self.device_selected(None)
+            i += 1
+
+    def device_selected(self, widget):
+        write_button = self.builder.get_object("write_button")
+        write_button.set_sensitive(True)
+        self.dev = self.list[self.combo.get_active()][0]
+
+    def do_write(self, widget):
+        source = self.chooser.get_filename()
+        target = self.dev.split('(')[1].rstrip(')')
+        if stat.S_ISBLK(os.stat(source)[stat.ST_MODE]):
+            psdevice = parted.Device(source)
+            self.src_size = psdevice.length*psdevice.sectorSize
+        else:
+            self.src_size = os.stat(source).st_size
+        ptdevice = parted.Device(target)
+        tgt_size = ptdevice.length*ptdevice.sectorSize
+        if self.src_size > tgt_size:
+            dlg = Gtk.MessageDialog(type=Gtk.MessageType.ERROR, buttons=Gtk.ButtonsType.OK, 
+                message_format=_("The device you selected is too small to " \
+                "contain the whole image files' contents. Image File is " \
+                "%(srcsize)s bytes, target device is %(tgtsize)s bytes. Please "\
+                "select another target.") \
+                % {'srcsize': self.src_size, 'tgtsize': tgt_size})
+            dlg.run()
+            dlg.destroy()
+            if self.autostart:
+                self.close(None)
+            return False
+        write_button = self.builder.get_object("write_button")
+        write_button.set_sensitive(False)
+        combo = self.builder.get_object("device_combobox")
+        combo.set_sensitive(False)
+        self.chooser.set_sensitive(False)
+        dialog = self.builder.get_object("confirm_dialog")
+        self.logger(_('Image: ')+source)
+        self.logger(_('Target Device: ')+self.dev)
+        resp = dialog.run()
+        if resp:
+            self.do_umount(target)
+            dialog.hide()
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+            self.raw_write(source, target)
+        else:
+            self.close('dummy')
+
+    def do_umount(self, target):
+        mounts = self.get_mounted(target)
+        print len(mounts)
+        if mounts:
+            self.logger(_('Unmounting all partitions of ')+target+':')
+        for mount in mounts:
+            self.logger(_('Trying to unmount ')+mount[0]+'...')
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+            try:
+                retcode = call('umount '+mount[0], shell=True)
+                if retcode < 0:
+                    self.logger(_('Error, umount ')+mount[0]+_(' was terminated by signal ')+str(retcode))
+                    self.emergency()
+                else:
+                    if retcode == 0:
+                        self.logger(mount[0]+_(' successfully unmounted'))
+                    else:
+                        self.logger(_('Error, umount ')+mount[0]+_(' returned ')+str(retcode))
+                        self.emergency()
+            except OSError, e:
+                self.logger(_('Execution failed: ')+str(e))
+                self.emergency()
+
+    def get_mounted(self, target):
+        try:
+            lines = [line.strip("\n").split(" ") for line in open ("/etc/mtab", "r").readlines()]
+            return [mount for mount in lines if mount[0].startswith(target)]
+        except:
+             self.logger(_('Could not read mtab !'))
+             self.emergency()
+
+    def raw_write(self, source, target):
+        self.target_f=open(target,'w')
+        self.progress.set_sensitive(True)
+        self.progress.set_text(_('Writing ')+source.split('/')[-1]+_(' to ')+self.dev)
+        self.logger(_('Executing: pv -n -s %(size)i %(source)s > %(target)s') % \
+            { "size": self.src_size, "source": source, "target": target })
+        while Gtk.events_pending():
+           Gtk.main_iteration()
+        pv = Popen(['pv', '-n', '-s', str(self.src_size), source], stdout=self.target_f, stderr=PIPE)
+        self.ddpid = pv.pid
+        line = pv.stderr.readline()
+        while line:
+            try:
+                p = float(line.strip())/100.0
+            except ValueError:
+                pass
+            self.progress.set_fraction(p)            
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+            line = pv.stderr.readline()
+        try:
+            self.target_f.flush()
+            os.fsync(self.target_f.fileno())
+        except:
+            self.emergency()
+        pid, sts = os.waitpid(pv.pid, 0)
+        if sts != 0:
+            self.logger(_('The copy process ended with an error !'))
+            self.emergency()
+            return False
+        self.progress.set_fraction(1.0)
+        self.logger(_('Image ')+source.split('/')[-1]+_(' successfully written to')+target)
+        if self.builder.get_object("verify").get_active():
+            if not self.verify_pass(source, target):
+                self.logger(_('The verification process ended with an error !'))
+                self.emergency()
+                return False
+        self.success()
+
+    def success(self):
+        dialog = self.builder.get_object("success_dialog")
+        self.final_unsensitive()
+        resp = dialog.run()
+        if resp:
+            exit(0)
+            dialog.destroy()
+
+    def emergency(self):
+        self.final_unsensitive()
+        dialog = self.builder.get_object("emergency_dialog")
+        expander = self.builder.get_object("detail_expander")
+        expander.set_expanded(True)
+        mark = self.log.create_mark("end", self.log.get_end_iter(), False)
+        self.logview.scroll_to_mark(mark, 0.05, True, 0.0, 1.0)
+        resp = dialog.run()
+        if resp:
+            dialog.destroy()
+
+    def final_unsensitive(self):
+        self.chooser.set_sensitive(False)
+        self.devicelist.set_sensitive(False)
+        write_button = self.builder.get_object("write_button")
+        write_button.set_sensitive(False)
+        self.progress.set_sensitive(False)
+
+    def close(self, widget):
+        self.write_logfile()
+        if self.ddpid > 0:
+            try:
+                os.killpg(os.getpgid(self.ddpid), signal.SIGKILL)
+            except:
+                Gtk.main_quit()
+        else:
+            Gtk.main_quit()
+
+    def write_logfile(self):
+        start = self.log.get_start_iter()
+        end = self.log.get_end_iter()
+        try:
+            logfile = open(os.path.join(os.environ['HOME'], ".imagewriter-ng.log"), 'w')
+            logfile.writelines(self.log.get_text(start, end, False))
+            logfile.close()
+        except:
+            print _("Cannot write log file, dumping log to stdout:") + '\n'
+            print self.log.get_text(start, end, False)
+
+    def logger(self, text):
+        self.log.insert_at_cursor(text+"\n")
+
+    def activate_devicelist(self, widget):
+        label = self.builder.get_object("to_label")
+        expander = self.builder.get_object("detail_expander")
+        if not self.cmd_target:
+            self.devicelist.set_sensitive(True)
+        label.set_sensitive(True)
+        expander.set_sensitive(True)
+        self.img_name = self.chooser.get_filename()
+
+    def get_md5(self, target):
+        self.progress.set_fraction(0)
+        if os.path.exists(target + '.md5'):
+            tgt = open(target + '.md5', 'r')
+            md5sum = tgt.readline().strip()
+            tgt.close()
+            self.progress.set_fraction(1.0)
+            print "MD5 of %s: %s (saved)" % (target, md5sum)
+            return md5sum
+        else:
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+            md5 = hashlib.md5()
+            tgt = open(target, 'r')
+            toread = self.src_size
+            while toread > 0:
+                if (toread - 8192) > 0:
+                    md5.update(tgt.read(8192))
+                    toread -= 8192
+                else:
+                    md5.update(tgt.read(toread))
+                    toread = 0
+                p = float(self.src_size - toread) / float(self.src_size)
+                self.progress.set_fraction(p)
+                while Gtk.events_pending():
+                    Gtk.main_iteration()
+            tgt.close()
+            print "MD5 of %s: %s" % (target, md5.hexdigest())
+            return md5.hexdigest()
+
+    def verify_pass(self, source, target):
+        # Sync and drop caches to avoid reading from the cache instead of
+        # the real device
+        call(["sync"])
+        call(["sysctl", "-q", "vm.drop_caches=3"])
+        self.progress.set_sensitive(True)
+        self.progress.set_text(_('Verifying: Calculating source checksum'))
+        while Gtk.events_pending():
+            Gtk.main_iteration()
+        source_md5 = self.get_md5(source)
+        self.progress.set_text(_('Verifying: Calculating target checksum'))
+        while Gtk.events_pending():
+            Gtk.main_iteration()
+        target_md5 = self.get_md5(target)
+        while Gtk.events_pending():
+            Gtk.main_iteration()
+        if not source_md5 == target_md5:
+            return False
+        else:
+            return True
+
+if __name__ == "__main__":
+    app = ImageWriter()
+    Gtk.main()

@@ -1,0 +1,226 @@
+# translation of _usb-image-writer-ru.po to
+# Russian translation for usb-imagewriter
+# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# This file is distributed under the same license as the usb-imagewriter package.
+#
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+# Sergei Zivukov <ekonomvygoda@yandex.ru>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: _usb-image-writer-ru\n"
+"Report-Msgid-Bugs-To: Discreete Linux Team <info@discreete-linux.org>\n"
+"POT-Creation-Date: 2012-03-22 09:48+0100\n"
+"PO-Revision-Date: 2016-10-21 16:11+0100\n"
+"Last-Translator: Egor Bushmelyov <Unknown>\n"
+"Language-Team:  <en@li.org>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2009-06-12 12:08+0000\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#: ../imagewriter-ng:162
+#, python-format
+msgid ""
+"The device you selected is too small to contain the whole image files' "
+"contents. Image File is %(srcsize)s bytes, target device is %(tgtsize)s "
+"bytes. Please select another target."
+msgstr ""
+
+#: ../imagewriter-ng:172
+msgid "Image: "
+msgstr "Образ: "
+
+#: ../imagewriter-ng:173
+msgid "Target Device: "
+msgstr "Целевое устройство: "
+
+#: ../imagewriter-ng:188
+msgid "Unmounting all partitions of "
+msgstr "Размонтирование всех устройств "
+
+#: ../imagewriter-ng:190
+msgid "Trying to unmount "
+msgstr "Попытка размонтирования "
+
+#: ../imagewriter-ng:196 ../imagewriter-ng:202
+msgid "Error, umount "
+msgstr "Ошибка, размонтировано "
+
+#: ../imagewriter-ng:196
+msgid " was terminated by signal "
+msgstr " был прерван с сигналом "
+
+#: ../imagewriter-ng:200
+msgid " successfully unmounted"
+msgstr " успешно размонтировано"
+
+#: ../imagewriter-ng:202
+msgid " returned "
+msgstr " возвратил "
+
+#: ../imagewriter-ng:205
+msgid "Execution failed: "
+msgstr "Выполнение не удалось: "
+
+#: ../imagewriter-ng:213
+msgid "Could not read mtab !"
+msgstr "Не удалось прочитать mtab!"
+
+#: ../imagewriter-ng:220
+msgid "Writing "
+msgstr "Запись "
+
+#: ../imagewriter-ng:220
+msgid " to "
+msgstr " в "
+
+#: ../imagewriter-ng:221
+msgid "Executing: dd if="
+msgstr "Исполнение: dd if="
+
+#: ../imagewriter-ng:243
+#, fuzzy
+msgid "The copy process ended with an error !"
+msgstr "dd процесс был завершен с ошибкой!"
+
+#: ../imagewriter-ng:247
+msgid "Image "
+msgstr "Образ "
+
+#: ../imagewriter-ng:247
+msgid " successfully written to"
+msgstr " успешно записано в"
+
+#: ../imagewriter-ng:250
+#, fuzzy
+msgid "The verification process ended with an error !"
+msgstr "dd процесс был завершен с ошибкой!"
+
+#: ../imagewriter-ng:320
+msgid "Verifying: Calculating source checksum"
+msgstr ""
+
+#: ../imagewriter-ng:339
+msgid "Verifying: Calculating target checksum"
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:7
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:98
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:360
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:442
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:524
+msgid "ImageWriter"
+msgstr "ImageWriter"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:33
+msgid ""
+"<b>Warning</b>\n"
+" This will <b>destroy all data</b> on the target\n"
+" device, are you sure you want to proceed ?\n"
+"\n"
+" If you say ok here, please <b>do not unplug</b>\n"
+" the device during the following operation."
+msgstr ""
+"На целевом устройстве будет <b>уничтожена вся информация</b> ,\n"
+"Вы действительно хотите продолжить?\n"
+"\n"
+"Если ответите \"Да\", пожалуйста, <b>не отключайте</b>\n"
+"устройство во время операции."
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:135
+msgid "Write Image:"
+msgstr "Записать образ:"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:147
+msgid "Select an image file to be written to the device"
+msgstr "Выбранный файл образа буден записан на устройство"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:148
+msgid "Select Image"
+msgstr "Выбрать образ"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:162
+msgid "to"
+msgstr "в"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:173
+msgid "Select target device to write the image to"
+msgstr "Выбрать целевое устройство для записи образа"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:199
+msgid " "
+msgstr " "
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:219
+msgid "Verify write"
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:266
+msgid "Details"
+msgstr "Подробности"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:332
+msgid "Write to device"
+msgstr "Записать в устройство"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:392
+msgid ""
+"<b>Error</b>\n"
+" No target devices were found. \n"
+"\n"
+" You need to plug in a USB Key\n"
+" to which the image can be written."
+msgstr ""
+"<b>Ошибка</b>\n"
+" Целевое устройство не было найдено. \n"
+"\n"
+" Вам нужно подключить USB-устройство,\n"
+" на которое можно записать образ."
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:471
+msgid ""
+"<b>Success</b>\n"
+" The image was successfully written to the\n"
+" target device.\n"
+" \n"
+" You are free to unplug it now, a log of the\n"
+" operation will be saved in your homedir if\n"
+" you close the application."
+msgstr ""
+"<b>Успешно</b>\n"
+" Образ был успешно записан на\n"
+" целевое устройство.\n"
+" \n"
+" Вы можете отключить его, журнал\n"
+" операции будет сохранен в Вашем домашнем каталоге, если\n"
+" закрыли приложение."
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:553
+msgid ""
+"<b>Error</b>\n"
+" Something went wrong, please see the details\n"
+" window for the exact error.\n"
+" \n"
+" A logfile with the content will be saved in your\n"
+" homedir if the application is closed."
+msgstr ""
+"<b>Ошибка</b>\n"
+" Что-то пошло не так, смотрите окно\n"
+" подробностей для уточнения ошибки.\n"
+" \n"
+" Лог-файл с содержанием будет сохранен в\n"
+" Вашем домашнем каталоге, если приложение закрыто."
+
+#~ msgid "Wrote: "
+#~ msgstr "Записано: "
+
+#~ msgid "gtk-cancel"
+#~ msgstr "gtk-cancel"
+
+#~ msgid "gtk-close"
+#~ msgstr "gtk-close"
+
+#~ msgid "gtk-ok"
+#~ msgstr "gtk-ok"

@@ -1,0 +1,18 @@
+Package: usb-imagewriter-ng
+Version: 0.4
+Architecture: all
+Maintainer: Discreete Linux Team <info@discreete-linux.org>
+Installed-Size: 366
+Depends: coreutils (>= 6.10-3), procps, gksu, python, pv, python-parted, python-pyudev
+Section: misc
+Priority: optional
+Description: Improved USB Image Writer, tool to write .img files to USB Keys
+ A GUI to write .img files like the ones created by the
+ ubuntu-mobile team for UME to a USB Key for installing
+ the image to mobile devices and netbooks.
+ Improved version of the original USB Image Writer.
+ Comes with the following advantages:
+ * Check image size vs. media size before writing
+ * Optional verification pass
+ * Improved error control
+ * Can be used from the command line (for scripting)

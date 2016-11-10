@@ -1,0 +1,6 @@
+lib/* usr/lib/imagewriter-ng
+share/usb-imagewriter-ng/* usr/share/imagewriter-ng
+share/icons/* usr/share/icons
+share/applications/* usr/share/applications
+imagewriter-ng usr/bin
+debian/mo/* usr/share/locale

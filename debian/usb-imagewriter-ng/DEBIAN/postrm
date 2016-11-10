@@ -1,0 +1,8 @@
+#!/bin/bash -e
+#
+# postrm for USB ImageWriter  NG
+#
+if [[ "$1" == "upgrade" || "$1" == "remove" || "$1" == "purge" ]]
+then
+    update-desktop-database
+fi

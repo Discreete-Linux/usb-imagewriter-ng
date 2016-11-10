@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon=usb-imagewriter-ng
+Exec=gksudo imagewriter-ng
+Name=ImageWriter-NG
+Categories=GNOME;GTK;Utility

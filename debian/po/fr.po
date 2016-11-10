@@ -1,0 +1,225 @@
+# French translation for usb-imagewriter
+# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# This file is distributed under the same license as the usb-imagewriter package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: usb-imagewriter\n"
+"Report-Msgid-Bugs-To: Discreete Linux Team <info@discreete-linux.org>\n"
+"POT-Creation-Date: 2012-03-22 09:48+0100\n"
+"PO-Revision-Date: 2016-10-21 16:11+0100\n"
+"Last-Translator: Loïc Bondy <Unknown>\n"
+"Language-Team: French <fr@li.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2009-06-12 12:08+0000\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#: ../imagewriter-ng:162
+#, python-format
+msgid ""
+"The device you selected is too small to contain the whole image files' "
+"contents. Image File is %(srcsize)s bytes, target device is %(tgtsize)s "
+"bytes. Please select another target."
+msgstr ""
+
+#: ../imagewriter-ng:172
+msgid "Image: "
+msgstr "Image : "
+
+#: ../imagewriter-ng:173
+msgid "Target Device: "
+msgstr "Périphérique cible : "
+
+#: ../imagewriter-ng:188
+msgid "Unmounting all partitions of "
+msgstr "Démonte toutes les partitions de "
+
+#: ../imagewriter-ng:190
+msgid "Trying to unmount "
+msgstr "Essaye de démonter "
+
+#: ../imagewriter-ng:196 ../imagewriter-ng:202
+msgid "Error, umount "
+msgstr "Erreur, umount "
+
+#: ../imagewriter-ng:196
+msgid " was terminated by signal "
+msgstr " a été terminé par le signal "
+
+#: ../imagewriter-ng:200
+msgid " successfully unmounted"
+msgstr " correctement démonté"
+
+#: ../imagewriter-ng:202
+msgid " returned "
+msgstr " a renvoyé "
+
+#: ../imagewriter-ng:205
+msgid "Execution failed: "
+msgstr "L'exécution a échoué : "
+
+#: ../imagewriter-ng:213
+msgid "Could not read mtab !"
+msgstr "Impossible de lire mtab !"
+
+#: ../imagewriter-ng:220
+msgid "Writing "
+msgstr "Écrit "
+
+#: ../imagewriter-ng:220
+msgid " to "
+msgstr " sur "
+
+#: ../imagewriter-ng:221
+msgid "Executing: dd if="
+msgstr "Exécute : dd if="
+
+#: ../imagewriter-ng:243
+#, fuzzy
+msgid "The copy process ended with an error !"
+msgstr "Le processus dd s'est arrêté avec une erreur !"
+
+#: ../imagewriter-ng:247
+msgid "Image "
+msgstr "Image "
+
+#: ../imagewriter-ng:247
+msgid " successfully written to"
+msgstr " écrite avec succès sur"
+
+#: ../imagewriter-ng:250
+#, fuzzy
+msgid "The verification process ended with an error !"
+msgstr "Le processus dd s'est arrêté avec une erreur !"
+
+#: ../imagewriter-ng:320
+msgid "Verifying: Calculating source checksum"
+msgstr ""
+
+#: ../imagewriter-ng:339
+msgid "Verifying: Calculating target checksum"
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:7
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:98
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:360
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:442
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:524
+msgid "ImageWriter"
+msgstr "ImageWriter"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:33
+msgid ""
+"<b>Warning</b>\n"
+" This will <b>destroy all data</b> on the target\n"
+" device, are you sure you want to proceed ?\n"
+"\n"
+" If you say ok here, please <b>do not unplug</b>\n"
+" the device during the following operation."
+msgstr ""
+"<b>Attention</b>\n"
+" Cette opération <b>détruira toutes les données</b> sur le périphérique\n"
+" cible, êtes vous sur de vouloir continuer ?\n"
+"\n"
+" Si vous cliquez sur ok, <b>ne débranchez pas</b>\n"
+" le lecteur pendant l'opération."
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:135
+msgid "Write Image:"
+msgstr "Ecrire l'image :"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:147
+msgid "Select an image file to be written to the device"
+msgstr "Sélectionnez un fichier image à écrire sur le périphérique"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:148
+msgid "Select Image"
+msgstr "Sélectionner l'image"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:162
+msgid "to"
+msgstr "sur"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:173
+msgid "Select target device to write the image to"
+msgstr "Sélectionnez le périphérique cible sur lequel écrire l'image"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:199
+msgid " "
+msgstr " "
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:219
+msgid "Verify write"
+msgstr ""
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:266
+msgid "Details"
+msgstr "Détails"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:332
+msgid "Write to device"
+msgstr "Écrire sur le périphérique"
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:392
+msgid ""
+"<b>Error</b>\n"
+" No target devices were found. \n"
+"\n"
+" You need to plug in a USB Key\n"
+" to which the image can be written."
+msgstr ""
+"<b>Erreur</b>\n"
+" Aucun périphérique cible trouvé. \n"
+"\n"
+" Vous devez brancher une clé USB\n"
+" sur laquelle l'image pourra être écrite."
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:471
+msgid ""
+"<b>Success</b>\n"
+" The image was successfully written to the\n"
+" target device.\n"
+" \n"
+" You are free to unplug it now, a log of the\n"
+" operation will be saved in your homedir if\n"
+" you close the application."
+msgstr ""
+"<b>Succès</b>\n"
+" L'image a été correctement écrite sur le\n"
+" périphérique cible.\n"
+" \n"
+" Vous pouvez maintenant le débrancher, un journal\n"
+" de l'opération sera enregistré dans votre répertoire\n"
+" personnel si vous fermez l'application."
+
+#: ../share/usb-imagewriter-ng/imagewriter-ng.ui:553
+msgid ""
+"<b>Error</b>\n"
+" Something went wrong, please see the details\n"
+" window for the exact error.\n"
+" \n"
+" A logfile with the content will be saved in your\n"
+" homedir if the application is closed."
+msgstr ""
+"<b>Erreur</b>\n"
+" Quelque chose s'est mal passé, veuillez consulter la fenêtre\n"
+" de détails pour connaître l'erreur exacte.\n"
+" \n"
+" Un fichier journal avec son contenu sera enregistré dans votre\n"
+" répertoire utilisateur si l'application est fermée."
+
+#~ msgid "Wrote: "
+#~ msgstr "Écrit : "
+
+#~ msgid "gtk-cancel"
+#~ msgstr "gtk-cancel"
+
+#~ msgid "gtk-close"
+#~ msgstr "gtk-close"
+
+#~ msgid "gtk-ok"
+#~ msgstr "gtk-ok"
